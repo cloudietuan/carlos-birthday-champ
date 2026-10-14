@@ -6,3 +6,36 @@
 .fallen,.object{touch-action:none}.dragging{z-index:7;cursor:grabbing;filter:brightness(1.15)}#raccoonBubble{font:10px monospace;background:#edddbd;color:#47354d;padding:6px 9px;bottom:auto;top:-18px;border-radius:3px}#raccoonBubble:after{content:'';position:absolute;left:16px;bottom:-5px;border-top:6px solid #edddbd;border-right:6px solid transparent}@media(max-width:600px){#raccoonBubble{font-size:9px;padding:5px}}
 
 .fallen{min-width:44px;min-height:44px}
+
+/* Fill the browser and keep dialogue readable above the puzzle. */
+html,body{min-height:100%;background:#0b0b13}
+main{width:100%;height:100svh;height:100dvh;min-height:520px;margin:0;padding:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto}
+.toolbar{min-height:48px;margin:0;padding:8px 22px;background:#171624;color:#c8c2d4;font-size:12px;letter-spacing:.5px}
+.toolbar>div{gap:18px;align-items:center}.toolbar button,footer button{font-size:12px;color:#e6e0ee;min-height:36px;padding:8px}
+.stage,.stage:has(.letter:not(.hidden)){aspect-ratio:auto;min-height:0;box-shadow:none;border-top:1px solid #42394f;border-bottom:1px solid #42394f}
+.narrator{top:14px;left:50%;right:auto;transform:translateX(-50%);width:min(1040px,calc(100% - 40px));padding:11px 18px;background:#080a12ed;border:1px solid #4a4659;box-shadow:0 3px 0 #0004}
+.narrator p{max-width:none;font:clamp(15px,1.35vw,19px)/1.5 monospace;color:#fff5e2;text-shadow:none;text-wrap:pretty}
+.opening{padding:120px 24px 36px}.opening .small{font-size:clamp(13px,1.5vw,20px);color:#d3cce2}.opening h1{font-size:clamp(24px,3.8vw,52px);line-height:1.8}.opening p{font-size:15px;color:#c0b6cc}
+.object>span{font:clamp(10px,1vw,13px)/1.5 monospace;bottom:-25px;padding:5px 9px;background:#0c0c16eb;color:#fff0cf;border:1px solid #5b4b66}
+.placard{font-size:clamp(10px,1.1vw,15px)}
+.inventory{padding:8px 22px;min-height:53px;gap:12px;background:#171624;border-top:0;font-size:13px}.inventory>span:first-child{font:11px monospace;color:#c2b5d0}.inventory #empty{color:#b7a9c3}.item{font-size:12px;min-height:36px;padding:8px 12px}#held{font-size:12px;color:#f0cf98}
+footer{margin:0;min-height:41px;padding:2px 22px;background:#171624;font-size:12px;color:#b7aac4}
+#audioState{font-size:11px;color:#cab9d7}
+.dance{inset:24% 8% 8%;display:flex;flex-direction:column;align-items:center;justify-content:center}.dance>p{font-size:clamp(11px,1.5vw,17px);line-height:1.8}.dance>button{font-size:13px;min-height:40px;padding:10px 18px;background:#171422d9;color:#f3e6fa}.pads{gap:clamp(12px,2vw,28px);margin-top:30px}.pads button{width:clamp(62px,8vw,108px);height:clamp(62px,8vw,108px);font-size:20px}
+.final-open{font-size:13px;min-height:48px}.birthday small{font-size:12px}.birthday h2{font-size:clamp(25px,4vw,48px)}.birthday button{font-size:12px;min-height:48px}
+.letter{inset:8% max(7%,calc((100% - 1000px)/2));padding:clamp(24px,4vw,48px)}.letter small{font-size:11px}.letter h2{font-size:clamp(18px,2vw,26px);line-height:1.6}.letter p{font-size:clamp(17px,1.7vw,23px);line-height:1.7}.letter button{font-size:13px;min-height:44px;padding:12px 16px}
+.audio-gate p{font-size:clamp(11px,1.7vw,19px)}.audio-gate button{font-size:13px;min-height:52px}.audio-gate button:last-child{font-size:15px}
+#raccoonBubble{font-size:clamp(13px,1.3vw,17px);line-height:1.3;padding:8px 12px;top:-32px}
+@media(max-width:600px){
+ main{min-height:600px}.toolbar{padding:5px 10px;gap:4px;flex-wrap:wrap;min-height:65px}.toolbar>span{flex-basis:100%;font-size:10px}.toolbar>div{width:100%;justify-content:flex-end;gap:12px}.toolbar button{font-size:11px;min-height:30px;padding:4px}.toolbar #audioState{margin-right:auto;font-size:10px}
+ .narrator{top:10px;width:calc(100% - 20px);padding:10px 12px}.narrator p{font-size:15px;line-height:1.45}
+ .opening{padding:140px 12px 30px}.opening .small{font-size:12px}.opening h1{font-size:clamp(17px,4.7vw,26px);line-height:2}.opening p{font-size:12px}
+ .inventory{padding:7px 10px;gap:7px;min-height:48px}.inventory>span:first-child{font-size:10px}.item{font-size:11px;min-height:36px;padding:8px}#held{font-size:11px}
+ footer{padding:4px 10px;font-size:10px;gap:10px}footer>span{max-width:230px;line-height:1.5}footer button{font-size:11px;white-space:nowrap}
+ .object>span{font-size:11px;bottom:-24px;padding:4px 6px}.placard{font-size:10px;padding:10px}#silence{top:28%!important}
+ .dance{inset:28% 3% 8%}.dance>p{font-size:10px}.pads{gap:9px;margin-top:24px}.pads button{width:62px;height:66px;font-size:18px}.fallen{font-size:16px}
+ .birthday{padding:14px}.birthday small{font-size:9px}.birthday h2{font-size:clamp(20px,5.5vw,32px);line-height:1.8}.birthday button{font-size:9px;line-height:1.7;max-width:94%}
+ .letter{inset:4%;padding:22px}.letter small{font-size:9px}.letter h2{font-size:17px}.letter p{font-size:17px;line-height:1.65}.letter>div{gap:10px}.letter button{font-size:12px;width:100%;min-height:44px}
+ .final-open{font-size:10px}.audio-gate p{font-size:10px;line-height:2}.audio-gate button{font-size:11px}#raccoonBubble{font-size:12px;max-width:130px;white-space:normal;min-width:70px}
+}
+@media(max-height:540px) and (min-width:601px){main{min-height:420px}.toolbar{min-height:38px;padding-block:0}.inventory{min-height:44px;padding-block:4px}footer{min-height:34px}.narrator{top:8px;padding:7px 12px}.narrator p{font-size:14px}.opening{padding-top:70px}.opening h1{font-size:26px;margin:6px 0}.opening .small{font-size:12px}.opening p{margin:4px}.letter{inset:4% 15%;padding:18px}.letter p{font-size:16px;margin:10px 0}.letter h2{font-size:17px;margin:8px 0}.dance{inset:22% 8% 4%}.dance>p{font-size:10px;margin:6px}.pads{margin-top:12px}.pads button{width:58px;height:58px}}
