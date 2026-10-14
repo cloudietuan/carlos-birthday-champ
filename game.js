@@ -24,8 +24,8 @@ function say(line){
     recordedAudio.play().catch(()=>{if(speechId===speechSerial){stopNarration();$('audioState').textContent='TAP REPLAY';}});
   });
 }
-recordedAudio.addEventListener('timeupdate',()=>{if(!recordedAudio.paused)$('audioState').textContent='SPEAKING '+Math.floor(recordedAudio.currentTime)+'s';});
-recordedAudio.addEventListener('playing',()=>{$('audioState').textContent='SPEAKING';});
+recordedAudio.addEventListener('timeupdate',()=>{if(voiceEnabled&&!recordedAudio.paused)$('audioState').textContent='SPEAKING '+Math.floor(recordedAudio.currentTime)+'s';});
+recordedAudio.addEventListener('playing',()=>{if(voiceEnabled&&!recordedAudio.paused)$('audioState').textContent='SPEAKING';});
 function enter(withSound){entered=true;voiceEnabled=withSound;$('voice').textContent=withSound?'VOICE ON':'VOICE OFF';$('voice').setAttribute('aria-pressed',String(withSound));visible('audioGate',false);say($('caption').textContent);}
 $('enterSound').onclick=()=>enter(true);$('enterSilent').onclick=()=>enter(false);
 $('replay').onclick=()=>{if(entered)say($('caption').textContent);};
@@ -51,7 +51,7 @@ function showPhase(n){
 }
 function refreshPockets(){
   visible('itemGlove',gloveOwned && phase<6);visible('itemRecord',recordOwned && phase===3);
-  visible('itemCake',cakeOwned&&phase===5&&!keyDropped);visible('itemKey',keyOwned&&phase===5&&!keyUnlocked);visible('empty',!gloveOwned&&!recordOwned);$('itemCake').classList.toggle('selected',selected==='cake');$('itemKey').classList.toggle('selected',selected==='key');
+  visible('itemCake',cakeOwned&&phase===5&&!keyDropped);visible('itemKey',keyOwned&&phase===5&&!keyUnlocked);visible('empty',!(gloveOwned&&phase<6)&&!(recordOwned&&phase===3)&&!(cakeOwned&&phase===5&&!keyDropped)&&!(keyOwned&&phase===5&&!keyUnlocked));$('itemCake').classList.toggle('selected',selected==='cake');$('itemKey').classList.toggle('selected',selected==='key');
   $('itemGlove').classList.toggle('selected',selected==='glove');
   $('itemRecord').classList.toggle('selected',selected==='record');$('fallen').classList.toggle('selected',selected==='sign');
   $('held').textContent=selected ? `holding: ${selected==='glove'?'glove':selected==='sign'?'NOT sign':selected==='cake'?'cake':selected==='key'?'key':'record'}` : '';
@@ -85,11 +85,11 @@ function loosenMusic(){
 function collectRecord(){if(phase!==3||!recordFound||recordOwned)return;recordOwned=true;selected='record';visible('record',false);refreshPockets();say('Great. Now you have music. Whatever you do, don’t put it on the turntable.');tone(440);}
 function usePlayer(){
   if(phase!==3)return;
-  if(selected!=='record'){say('The player is empty. That’s how I like my dance floors: completely silent.');return;}
+  if(selected!=='record'||!recordOwned){say('The player is empty. That’s how I like my dance floors: completely silent.');return;}
   selected=null;showPhase(4);playing=true;$('danceStatus').textContent='LISTEN TO THE NARRATOR.';const version=epoch;say('Oh no. A dance floor. Watch the five flashes. If you copy them, the last lock opens. You wouldn’t do that to me, would you?').then(()=>{if(phase===4&&epoch===version)startDanceWhenQuiet(version);});
 }
 function playPattern(){
-  if(phase!==4||playing)return;playing=true;danceIndex=0;$('danceStatus').textContent='WATCH THE FIVE FLASHES.';
+  if(phase!==4||playing)return;if(voiceEnabled&&resolveNarration){playing=true;$('danceStatus').textContent='LISTEN TO THE NARRATOR.';startDanceWhenQuiet(epoch);return;}playing=true;danceIndex=0;$('danceStatus').textContent='WATCH THE FIVE FLASHES.';
   pattern.forEach((number,i)=>later(()=>flashPad(number),i*650+400));
   later(()=>{playing=false;$('danceStatus').textContent='YOUR TURN.';},pattern.length*650+500);
 }
@@ -117,7 +117,7 @@ const hints=[
   'That crooked NOT sign looks loose. Keep clicking it.',
   'Select the fallen NOT sign, then tap the glass case. You can also drag the sign onto it.',
   'Select the boxing glove in your pockets, then punch the box six times.',
-  recordFound?'Pick up the record, select it in your pockets, and click the turntable.':'The NO MUSIC sign is hiding something. Click it three times.',
+  'The NO MUSIC sign is hiding something. Click it three times.',
   'The pattern is 1, 3, 2, 1, 4. You can replay it with LISTEN AGAIN.',
   'Tempt the raccoon with the cake, then use the key on the lock.',
   'The present has a note for you. Open it.',
@@ -130,7 +130,7 @@ $('itemGlove').onclick=()=>selectItem('glove');$('itemRecord').onclick=()=>selec
 $('listen').onclick=playPattern;pads.forEach((p,i)=>p.onclick=()=>hitPad(i));
 $('finalOpen').onclick=openGift;$('letterOpen').onclick=()=>{showPhase(7);say('I’m going to stop talking for a second. This bit is from your friend.');};
 $('forgive').onclick=()=>finish(true);$('roast').onclick=()=>finish(false);
-$('hint').onclick=()=>{if(phase===5&&!keyUnlocked){$('caption').textContent=keyDropped?'Pick up the dropped key and drag it to the present’s lock.':'That raccoon stole your key. It seems more interested in the cake. Try dragging the slice over to it.';stopNarration();$('raccoonBubble').textContent=keyDropped?'key. box. easy.':'cake please.';}else say(phase===5?'You earned it. Open the box anyway.':hints[phase]);};
+$('hint').onclick=()=>{if(phase===5&&!keyUnlocked){$('caption').textContent=keyDropped?'Pick up the dropped key and drag it to the present’s lock.':'That raccoon stole your key. It seems more interested in the cake. Try dragging the slice over to it.';stopNarration();$('raccoonBubble').textContent=keyDropped?'key. box. easy.':'cake please.';}else say(phase===3&&recordFound?'Pick up the record, select it in your pockets, and click the turntable.':phase===5?'You earned it. Open the box anyway.':hints[phase]);};
 $('voice').onclick=()=>{voiceEnabled=!voiceEnabled;$('voice').textContent=voiceEnabled?'VOICE ON':'VOICE OFF';$('voice').setAttribute('aria-pressed',String(voiceEnabled));if(!voiceEnabled)stopNarration();else if(entered)say($('caption').textContent);};
 $('restart').onclick=()=>{
   if(phase>0&&!confirm('Start the puzzle over?'))return;
@@ -199,7 +199,7 @@ function resetMovables(){recordPosition={x:160,y:193};cakePosition={x:154,y:236}
 function movable(id,item){const el=$(id);el.draggable=false;let drag=null;
  el.addEventListener('pointerdown',e=>{if(e.button!==0)return;e.preventDefault();const stage=$('stage').getBoundingClientRect(),b=el.getBoundingClientRect();drag={x:e.clientX,y:e.clientY,left:(b.left-stage.left)/stage.width*100,top:(b.top-stage.top)/stage.height*100,w:b.width/stage.width*100,h:b.height/stage.height*100,moved:false,stage};el.setPointerCapture(e.pointerId);el.classList.add('dragging');});
  el.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>5)drag.moved=true;if(!drag.moved)return;const left=Math.max(0,Math.min(100-drag.w,drag.left+dx/drag.stage.width*100)),top=Math.max(15,Math.min(100-drag.h,drag.top+dy/drag.stage.height*100));el.style.left=left+'%';el.style.top=top+'%';const p={x:(left+drag.w/2)*6.4,y:(top+drag.h/2)*3.6};if(item==='record')recordPosition=p;if(item==='cake')cakePosition=p;if(item==='key')keyPosition=p;});
- el.addEventListener('pointerup',e=>{if(!drag)return;const moved=drag.moved;drag=null;el.classList.remove('dragging');if(!moved){el.onclick?.(e);return;}selected=item;refreshPockets();if(item==='sign'&&phase===1&&inside('glove',e))collectGlove();if(item==='record'&&phase===3&&inside('player',e)){collectRecord();usePlayer();}if(item==='cake'&&phase===5&&inside('raccoon',e)){takeCake();feedRaccoon();}if(item==='key'&&phase===5&&inside('box',e)){takeKey();inspectBox();}});
+ el.addEventListener('pointerup',e=>{if(!drag)return;const moved=drag.moved;drag=null;el.classList.remove('dragging');if(!moved){el.onclick?.(e);return;}selected=item==='sign'?item:null;refreshPockets();if(item==='sign'&&phase===1&&inside('glove',e))collectGlove();if(item==='record'&&phase===3&&inside('player',e)){collectRecord();usePlayer();}if(item==='cake'&&phase===5&&inside('raccoon',e)){takeCake();feedRaccoon();}if(item==='key'&&phase===5&&inside('box',e)){takeKey();inspectBox();}});
  el.addEventListener('pointercancel',()=>{drag=null;el.classList.remove('dragging');});el.addEventListener('click',e=>{if(e.detail>0){e.preventDefault();e.stopImmediatePropagation();}},true);
 }
 movable('fallen','sign');movable('record','record');movable('cake','cake');movable('key','key');
