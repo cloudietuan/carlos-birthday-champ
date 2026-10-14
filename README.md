@@ -1,33 +1,35 @@
-# Carlos Birthday Champ
+# Carlos, this is not your present.
 
-A short birthday adventure for Carlos: explore the gym, find a mystery present, train with your coach, beat a cake, and discover a surprise party. Built with original pixel art, HTML Canvas, CSS, and JavaScript.
+A small original birthday puzzle adventure inspired by the fourth-wall humor and screen puzzles of *There Is No Game*. All dialogue, art, code, and puzzles here were made for Carlos.
 
 **Play:** https://cloudietuan.github.io/carlos-birthday-champ/
 
-## Controls
+## Play
 
-- Hold **Left / Right** to walk. Press **E** (or the Interact button) near the present, coach, and punching bag.
-- During fights, press **Space** or Punch to attack.
-- During the dance round, tap the matching **arrow key** when a note reaches the gold line.
-- On phones, use the buttons below the game.
-- **Escape** or **Pause** pauses the action. Sound is optional and starts after you turn it on.
+Click or tap the scene. The narrator is not especially reliable. Find loose signs, collect objects, use your boxing glove, uncover music, and solve a dance-floor memory puzzle to reach the birthday present.
+
+Select an item from your pockets, then tap its destination. On desktop, you can also drag items. There are no movement arrows. `STUCK?` gives a clue for the current puzzle.
+
+Every narrator line appears as a caption. Optional voice and tones use your browser's speech and audio capabilities; voice availability varies by device. No login, tracking, or downloads needed.
 
 ## Run locally
 
-Open `index.html`, or serve this folder with a static web server:
+Serve this folder with a static server:
 
 ```sh
 python3 -m http.server 8000
 ```
 
-Visit http://localhost:8000. No build tools or installation required.
+Open http://localhost:8000. No build step or dependencies.
 
-## Personalize
+## Files
 
-Edit the birthday note in the `birthdayNote` variable and dialogue in `interact()` in `index.html`. and the character's colors are in `pixelCarlos()`.
+- `index.html` — scene controls and birthday note.
+- `style.css` — responsive stage and interface.
+- `game.js` — story, puzzle state, input, speech, and original pixel illustrations.
 
-Scores stay in the player's browser. No account, tracking, or server required.
+The personal message lives in the `letter` element in `index.html`. Narrator dialogue and puzzle sequence are in `game.js`.
 
 ## Font
 
-Press Start 2P by CodeMan38 is bundled locally under the SIL Open Font License. See `assets/FONT-LICENSE.txt`.
+Press Start 2P by CodeMan38 is bundled under the SIL Open Font License. See `assets/FONT-LICENSE.txt`.
