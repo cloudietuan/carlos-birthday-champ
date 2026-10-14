@@ -5,26 +5,29 @@
 <title>Carlos, this is not your present.</title>
 <meta name="description" content="An extremely unhelpful little game for Carlos. Click around. Don't trust the narrator.">
 <link rel="icon" href="assets/glove.svg"><link rel="preload" href="assets/arcade.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=recorded-raccoon-1">
 </head>
 <body>
 <main aria-label="Carlos's puzzle adventure">
-<div class="toolbar"><span id="chapter">A VERY NORMAL EMPTY SCREEN</span><div><button id="voice" aria-pressed="true">VOICE ON</button><button id="hint">STUCK?</button></div></div>
+<div class="toolbar"><span id="chapter">A VERY NORMAL EMPTY SCREEN</span><div><output id="audioState" aria-live="off"></output><button id="replay" aria-label="Replay the narrator’s last line">REPLAY</button><button id="voice" aria-pressed="true">VOICE ON</button><button id="hint">STUCK?</button></div></div>
 <section class="stage" id="stage" aria-label="Puzzle scene">
+<div class="narrator"><p id="caption" role="status" aria-live="polite">Carlos. Before you start clicking things: this is NOT your present. Especially that crooked sign. Leave it alone.</p></div>
 <canvas id="art" width="640" height="360" aria-label="Original pixel art puzzle scene"></canvas>
-<div id="opening" class="opening"><span class="small">CARLOS,</span><h1>THIS IS <button id="denial" aria-label="Pry loose the NOT sign">NOT</button><br>YOUR PRESENT.</h1><p>nothing to see here. definitely.</p></div>
+<div id="audioGate" class="audio-gate"><p>A LITTLE SOMETHING FOR CARLOS</p><button id="enterSound">ENTER WITH SOUND</button><button id="enterSilent">PLAY QUIETLY</button></div><audio id="narrationAudio" preload="none"></audio><button id="fallen" class="fallen hidden" aria-label="Select the fallen NOT sign">NOT</button><div id="opening" class="opening"><span class="small">CARLOS,</span><h1>THIS IS <button id="denial" aria-label="Pry loose the NOT sign">NOT</button><br>YOUR PRESENT.</h1><p>nothing to see here. definitely.</p></div>
 <button class="object hidden" id="glove" aria-label="Pick up the boxing glove" style="left:66%;top:56%;width:16%;height:24%"><span>TAKE</span></button>
 <button class="object hidden" id="box" aria-label="Inspect or punch the locked present" style="left:32%;top:35%;width:36%;height:47%"><span id="boxLabel">DO NOT TOUCH</span></button>
 <button class="placard hidden" id="silence" style="left:12%;top:18%">NO MUSIC<br>ALLOWED</button>
 <button class="object hidden" id="record" aria-label="Pick up the hidden record" style="left:15%;top:40%;width:20%;height:26%"><span>?</span></button>
 <button class="object hidden" id="player" aria-label="Use record on turntable" style="left:57%;top:40%;width:30%;height:39%"><span id="playerLabel">NOT A DANCE FLOOR</span></button>
 <div class="hidden dance" id="dance"><p id="danceStatus">THE FLOOR IS LISTENING.</p><button id="listen">LISTEN AGAIN</button><div class="pads"><button data-pad="0" aria-label="Blue dance pad">1</button><button data-pad="1" aria-label="Rose dance pad">2</button><button data-pad="2" aria-label="Gold dance pad">3</button><button data-pad="3" aria-label="Green dance pad">4</button></div></div>
+<button class="object hidden" id="cake" aria-label="Pick up the cake slice" style="left:14%;top:55%;width:20%;height:25%"><span>CAKE</span></button>
+<button class="object hidden" id="raccoon" aria-label="Offer cake to the raccoon" style="left:73%;top:43%;width:20%;height:35%"><span id="raccoonBubble">mine.</span></button>
+<button class="object hidden" id="key" aria-label="Pick up the dropped key" style="left:73%;top:62%;width:14%;height:20%"><span>KEY</span></button>
 <button class="hidden final-open" id="finalOpen">OPEN IT ANYWAY</button>
 <div id="birthday" class="hidden birthday"><small>OKAY. YOU CAUGHT ME.</small><h2>FELIZ<br>CUMPLEAÑOS,<br>CARLOS!</h2><button id="letterOpen">THERE’S A NOTE FOR YOU</button></div>
 <article class="hidden letter" id="letter"><small>FOR CARLOS</small><h2>you earned this.</h2><p>carlos is somehow finally strong enough to get this present.</p><p>happy birthday carlos!!<br>now go eat some cake and take over the dance floor. ♡</p><div><button id="forgive">FINE. YOU’RE FORGIVEN.</button><button id="roast">YOU’RE STILL ANNOYING.</button></div></article>
 </section>
-<div class="narrator"><span class="speaker">THE EXTREMELY TRUSTWORTHY NARRATOR</span><p id="caption" role="status" aria-live="polite">Carlos. Before you start clicking things: this is NOT your present. Especially that crooked sign. Leave it alone.</p></div>
-<div class="inventory"><span>POCKETS</span><button id="itemGlove" class="hidden item" aria-label="Select boxing glove">BOXING GLOVE</button><button id="itemRecord" class="hidden item" aria-label="Select record">MYSTERY RECORD</button><span id="empty">empty. allegedly.</span><span id="held"></span></div>
+<div class="inventory"><span>POCKETS</span><button id="itemGlove" class="hidden item" aria-label="Select boxing glove">BOXING GLOVE</button><button id="itemRecord" class="hidden item" aria-label="Select record">MYSTERY RECORD</button><button id="itemCake" class="hidden item" aria-label="Select cake slice">CAKE SLICE</button><button id="itemKey" class="hidden item" aria-label="Select key">GOLD KEY</button><span id="empty">empty. allegedly.</span><span id="held"></span></div>
 <footer><span>click / tap to investigate · items can be dragged or selected</span><button id="restart">START OVER</button></footer>
-</main><script src="game.js"></script>
+</main><script src="narration.js?v=recorded-raccoon-1"></script><script src="game.js?v=recorded-raccoon-1"></script>
 </body></html>

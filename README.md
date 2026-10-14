@@ -6,11 +6,11 @@ A small original birthday puzzle adventure inspired by the fourth-wall humor and
 
 ## Play
 
-Click or tap the scene. The narrator is not especially reliable. Find loose signs, collect objects, use your boxing glove, uncover music, and solve a dance-floor memory puzzle to reach the birthday present.
+Click or tap the scene. Loose props can be moved around the screen with a mouse or finger. The narrator is not especially reliable. Find loose signs, collect objects, use the fallen title sign to break a glass case, use your boxing glove, uncover music, solve a dance-floor memory puzzle, and bribe a key-stealing raccoon with cake to reach the birthday present.
 
 Select an item from your pockets, then tap its destination. On desktop, you can also drag items. There are no movement arrows. `STUCK?` gives a clue for the current puzzle.
 
-Every narrator line appears as a caption. Optional voice and tones use your browser's speech and audio capabilities; voice availability varies by device. No login, tracking, or downloads needed.
+Enter with sound to hear 36 locally hosted, recorded narrator lines. Replay repeats the last line; muting leaves captions and every puzzle available. Narration uses MP3 playback rather than browser text-to-speech. The raccoon’s clues appear as speech bubbles. No login, tracking, or downloads needed.
 
 ## Run locally
 
@@ -26,7 +26,8 @@ Open http://localhost:8000. No build step or dependencies.
 
 - `index.html` — scene controls and birthday note.
 - `style.css` — responsive stage and interface.
-- `game.js` — story, puzzle state, input, speech, and original pixel illustrations.
+- `game.js` — story, puzzle state, mouse/touch dragging, audio playback, and original pixel illustrations.
+- `narration.js` and `assets/audio/` — recorded dialogue and original punch/glass effects.
 
 The personal message lives in the `letter` element in `index.html`. Narrator dialogue and puzzle sequence are in `game.js`.
 
