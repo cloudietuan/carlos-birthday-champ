@@ -5,13 +5,14 @@
 <title>Carlos, this is not your present.</title>
 <meta name="description" content="An extremely unhelpful little game for Carlos. Click around. Don't trust the narrator.">
 <link rel="icon" href="assets/glove.svg"><link rel="preload" href="assets/arcade.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="style.css?v=full-screen-3">
+<link rel="stylesheet" href="style.css?v=separate-captions-4">
 </head>
 <body>
 <main aria-label="Carlos's puzzle adventure">
 <div class="toolbar"><span id="chapter">A VERY NORMAL EMPTY SCREEN</span><div><output id="audioState" aria-live="off"></output><button id="replay" aria-label="Replay the narrator’s last line">REPLAY</button><button id="voice" aria-pressed="true">VOICE ON</button><button id="hint">STUCK?</button></div></div>
-<section class="stage" id="stage" aria-label="Puzzle scene">
 <div class="narrator"><p id="caption" role="status" aria-live="polite">Carlos. Before you start clicking things: this is NOT your present. Especially that crooked sign. Leave it alone.</p></div>
+<section class="stage" id="stage" aria-label="Puzzle scene">
+
 <canvas id="art" width="640" height="360" aria-label="Original pixel art puzzle scene"></canvas>
 <div id="audioGate" class="audio-gate"><p>A LITTLE SOMETHING FOR CARLOS</p><button id="enterSound">ENTER WITH SOUND</button><button id="enterSilent">PLAY QUIETLY</button></div><audio id="narrationAudio" preload="none"></audio><button id="fallen" class="fallen hidden" aria-label="Select the fallen NOT sign">NOT</button><div id="opening" class="opening"><span class="small">CARLOS,</span><h1>THIS IS <button id="denial" aria-label="Pry loose the NOT sign">NOT</button><br>YOUR PRESENT.</h1><p>nothing to see here. definitely.</p></div>
 <button class="object hidden" id="glove" aria-label="Pick up the boxing glove" style="left:66%;top:56%;width:16%;height:24%"><span>TAKE</span></button>
@@ -29,5 +30,5 @@
 </section>
 <div class="inventory"><span>POCKETS</span><button id="itemGlove" class="hidden item" aria-label="Select boxing glove">BOXING GLOVE</button><button id="itemRecord" class="hidden item" aria-label="Select record">MYSTERY RECORD</button><button id="itemCake" class="hidden item" aria-label="Select cake slice">CAKE SLICE</button><button id="itemKey" class="hidden item" aria-label="Select key">GOLD KEY</button><span id="empty">empty. allegedly.</span><span id="held"></span></div>
 <footer><span>click / tap to investigate · items can be dragged or selected</span><button id="restart">START OVER</button></footer>
-</main><script src="narration.js?v=full-screen-3"></script><script src="game.js?v=full-screen-3"></script>
+</main><script src="narration.js?v=separate-captions-4"></script><script src="game.js?v=separate-captions-4"></script>
 </body></html>
