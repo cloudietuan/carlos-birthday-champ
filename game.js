@@ -8,11 +8,13 @@ const chapters = ['A VERY NORMAL EMPTY SCREEN','THAT IS NOT A BOXING GLOVE','AN 
 const pattern = [0,2,1,0,3];
 let cakeOwned=false,keyOwned=false,keyDropped=false,keyUnlocked=false;let recordPosition={x:160,y:193},cakePosition={x:154,y:236},keyPosition={x:510,y:252};let speechSerial=0;let entered=false,resolveNarration=null;const recordedAudio=$('narrationAudio');let phase=0, signHits=0, lockHits=0, musicHits=0, recordFound=false;
 let gloveOwned=false, recordOwned=false, selected=null, danceIndex=0, playing=false;
+let ending=null;
 let epoch=0, clock=0, last=0, hitUntil=0, confetti=[], voiceEnabled=true, audio;
 function visible(id, yes){ $(id).classList.toggle('hidden', !yes); }
 function later(fn, ms){const version=epoch;setTimeout(()=>{if(version===epoch)fn();},ms);}
 function stopNarration(){speechSerial++;recordedAudio.pause();if(resolveNarration){resolveNarration();resolveNarration=null;}$('audioState').textContent='';}
 function say(line){
+  queueSave();
   $('caption').textContent=line;stopNarration();
   if(!voiceEnabled||!entered)return Promise.resolve();
   const source=window.NARRATION?.[line.toLowerCase()];
@@ -50,6 +52,7 @@ function showPhase(n){
   refreshPockets();
 }
 function refreshPockets(){
+  queueSave();
   visible('itemGlove',gloveOwned && phase<6);visible('itemRecord',recordOwned && phase===3);
   visible('itemCake',cakeOwned&&phase===5&&!keyDropped);visible('itemKey',keyOwned&&phase===5&&!keyUnlocked);visible('empty',!(gloveOwned&&phase<6)&&!(recordOwned&&phase===3)&&!(cakeOwned&&phase===5&&!keyDropped)&&!(keyOwned&&phase===5&&!keyUnlocked));$('itemCake').classList.toggle('selected',selected==='cake');$('itemKey').classList.toggle('selected',selected==='key');
   $('itemGlove').classList.toggle('selected',selected==='glove');
@@ -109,6 +112,7 @@ function openGift(){
   [392,440,523,659,523,784].forEach((n,i)=>later(()=>tone(n,.2),i*180));
 }
 function finish(forgiven){
+  ending=forgiven?'forgive':'roast';
   say(forgiven?'Okay. Friends again. Happy birthday, Carlos. Now go have a good one.':'Fair. I earned that. Happy birthday anyway, Carlos. You still get the present.');
   $('letter').querySelector('h2').textContent=forgiven?'friends again. ♡':'fair enough. ♡';
   $('forgive').disabled=true;$('roast').disabled=true;
@@ -134,6 +138,7 @@ $('hint').onclick=()=>{if(phase===5&&!keyUnlocked){$('caption').textContent=keyD
 $('voice').onclick=()=>{voiceEnabled=!voiceEnabled;$('voice').textContent=voiceEnabled?'VOICE ON':'VOICE OFF';$('voice').setAttribute('aria-pressed',String(voiceEnabled));if(!voiceEnabled)stopNarration();else if(entered)say($('caption').textContent);};
 $('restart').onclick=()=>{
   if(phase>0&&!confirm('Start the puzzle over?'))return;
+  ending=null;try{localStorage.removeItem(SAVE_KEY);}catch{}
   stopNarration();cakeOwned=keyOwned=keyDropped=keyUnlocked=false;resetMovables();epoch++;phase=signHits=lockHits=musicHits=danceIndex=0;recordFound=gloveOwned=recordOwned=playing=false;selected=null;confetti=[];
   $('denial').classList.remove('fall','shake');pads.forEach(p=>p.classList.remove('lit'));
   $('forgive').disabled=$('roast').disabled=false;$('letter').querySelector('h2').textContent='you earned this.';
@@ -208,3 +213,48 @@ $('raccoon').ondragover=e=>e.preventDefault();$('raccoon').ondrop=e=>{e.preventD
 const oldBoxDrop=$('box').ondrop;$('box').ondrop=e=>{if(e.dataTransfer.getData('text/plain')==='key'&&keyOwned){e.preventDefault();selected='key';inspectBox();}else oldBoxDrop(e);};
 
 function startDanceWhenQuiet(version){if(phase!==4||epoch!==version)return;if(voiceEnabled&&resolveNarration){later(()=>startDanceWhenQuiet(version),180);return;}playing=false;playPattern();}
+
+
+// Save puzzle state, not timers or audio; refreshing must never strand a puzzle.
+const SAVE_KEY='carlos-birthday-progress-v1';
+function queueSave(){Promise.resolve().then(saveProgress);}
+function saveProgress(){
+  if(!entered)return;
+  try{
+    const props={};
+    for(const id of ['fallen','record','cake','key'])props[id]={left:$(id).style.left,top:$(id).style.top};
+    localStorage.setItem(SAVE_KEY,JSON.stringify({version:1,phase,signHits,lockHits,musicHits,recordFound,gloveOwned,recordOwned,cakeOwned,keyOwned,keyDropped,keyUnlocked,selected,danceIndex,playing,voiceEnabled,ending,caption:$('caption').textContent,recordPosition,cakePosition,keyPosition,props}));
+  }catch{} // The game remains playable when browser storage is unavailable.
+}
+function restoreProgress(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(SAVE_KEY));
+    if(!saved||saved.version!==1||!Number.isInteger(saved.phase)||saved.phase<0||saved.phase>7)return;
+    const count=(value,max)=>Number.isInteger(value)&&value>=0&&value<=max?value:0;
+    signHits=count(saved.signHits,10);lockHits=count(saved.lockHits,6);musicHits=count(saved.musicHits,3);danceIndex=count(saved.danceIndex,4);
+    recordFound=saved.recordFound===true;gloveOwned=saved.gloveOwned===true;recordOwned=saved.recordOwned===true;
+    cakeOwned=saved.cakeOwned===true;keyOwned=saved.keyOwned===true;keyDropped=saved.keyDropped===true;keyUnlocked=saved.keyUnlocked===true;
+    selected=(saved.selected==='sign'&&saved.phase===1)||(saved.selected==='glove'&&gloveOwned)||(saved.selected==='record'&&recordOwned)||(saved.selected==='cake'&&cakeOwned)||(saved.selected==='key'&&keyOwned)?saved.selected:null;
+    voiceEnabled=saved.voiceEnabled!==false;entered=true;ending=['forgive','roast'].includes(saved.ending)?saved.ending:null;
+    resetMovables();
+    const point=(p,fallback)=>p&&Number.isFinite(p.x)&&Number.isFinite(p.y)&&p.x>=0&&p.x<=640&&p.y>=0&&p.y<=360?p:fallback;
+    recordPosition=point(saved.recordPosition,recordPosition);cakePosition=point(saved.cakePosition,cakePosition);keyPosition=point(saved.keyPosition,keyPosition);
+    for(const id of ['fallen','record','cake','key'])for(const axis of ['left','top']){
+      const value=saved.props?.[id]?.[axis];
+      if(typeof value==='string'&&/^\d+(?:\.\d+)?%$/.test(value)&&parseFloat(value)<=100)$(id).style[axis]=value;
+    }
+    // A refresh during the falling animation advances to its completed state.
+    const resumePhase=saved.phase===0&&signHits===10?1:saved.phase;
+    showPhase(resumePhase);visible('audioGate',false);
+    $('voice').textContent=voiceEnabled?'VOICE ON':'VOICE OFF';$('voice').setAttribute('aria-pressed',String(voiceEnabled));
+    if(typeof saved.caption==='string'&&saved.caption.length<=600)$('caption').textContent=saved.caption;
+    if(resumePhase===1&&saved.phase===0)$('caption').textContent='Excellent. You broke the sign. And uncovered a boxing glove. Which is decorative. Do not pick it up.';
+    if(resumePhase===2&&lockHits>0)$('boxLabel').textContent='CRACK…';
+    $('raccoonBubble').textContent=keyDropped?'fair trade.':cakeOwned?'is that for me?':'mine.';
+    if(resumePhase===4){playing=false;if(saved.playing){danceIndex=0;$('danceStatus').textContent='PRESS LISTEN AGAIN FOR THE PATTERN.';}else $('danceStatus').textContent=danceIndex?`${danceIndex} / 5`:'YOUR TURN.';}
+    if(resumePhase>=6)for(let i=0;i<80;i++)confetti.push({x:Math.random()*640,y:Math.random()*360,v:35+Math.random()*80,color:['#f3ce84','#de94b0','#9dc9b3','#acb9db'][i%4]});
+    if(resumePhase===7&&ending){$('letter').querySelector('h2').textContent=ending==='forgive'?'friends again. ♡':'fair enough. ♡';$('forgive').disabled=$('roast').disabled=true;}
+  }catch{} // Ignore old or damaged saves instead of blocking the opening screen.
+}
+window.addEventListener?.('pagehide',saveProgress);
+restoreProgress();

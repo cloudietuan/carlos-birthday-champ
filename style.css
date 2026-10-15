@@ -48,3 +48,5 @@ main:has(.audio-gate:not(.hidden))>.narrator,main:has(.birthday:not(.hidden))>.n
 .opening{padding:30px 24px}.dance{inset:10% 8% 8%}
 @media(max-width:600px){.narrator{width:100%;padding:10px 16px}.opening{padding:24px 12px}.dance{inset:10% 3% 8%}#silence{top:18%!important}.letter h2{font-size:clamp(14px,4.3vw,17px)}}
 @media(max-height:540px) and (min-width:601px){.narrator{padding:7px 20px}.opening{padding:12px}.dance{inset:4% 8%}.pads{margin-top:8px}}
+
+#restart{border:1px solid #86738e;background:#30283e;color:#fff0d3;padding:7px 13px;min-height:36px}#restart:hover{background:#46364e;border-color:#e0bf89}
