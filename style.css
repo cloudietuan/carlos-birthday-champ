@@ -50,3 +50,6 @@ main:has(.audio-gate:not(.hidden))>.narrator,main:has(.birthday:not(.hidden))>.n
 @media(max-height:540px) and (min-width:601px){.narrator{padding:7px 20px}.opening{padding:12px}.dance{inset:4% 8%}.pads{margin-top:8px}}
 
 #restart{border:1px solid #86738e;background:#30283e;color:#fff0d3;padding:7px 13px;min-height:36px}#restart:hover{background:#46364e;border-color:#e0bf89}
+
+/* Hidden captions must not move the scene out of its flexible grid row. */
+main>.toolbar{grid-row:1}main>.narrator{grid-row:2}main>.stage{grid-row:3}main>.inventory{grid-row:4}main>footer{grid-row:5}
