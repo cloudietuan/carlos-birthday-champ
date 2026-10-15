@@ -5,16 +5,17 @@
 <title>Carlos, this is not your present.</title>
 <meta name="description" content="An extremely unhelpful little game for Carlos. Click around. Don't trust the narrator.">
 <link rel="icon" href="assets/glove.svg"><link rel="preload" href="assets/arcade.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="style.css?v=sharp-art-8">
+<link rel="stylesheet" href="style.css?v=birthday-coverup-9">
 </head>
 <body>
 <main aria-label="Carlos's puzzle adventure">
 <div class="toolbar"><span id="chapter">A VERY NORMAL EMPTY SCREEN</span><div><output id="audioState" aria-live="off"></output><button id="replay" aria-label="Replay the narrator’s last line">REPLAY</button><button id="voice" aria-pressed="true">VOICE ON</button><button id="hint">STUCK?</button></div></div>
-<div class="narrator"><p id="caption" role="status" aria-live="polite">Carlos. Before you start clicking things: this is NOT your present. Especially that crooked sign. Leave it alone.</p></div>
+<div class="narrator"><p id="caption" role="status" aria-live="polite">Carlos. Before you start clicking things: this is NOT your present. Especially that crooked sign. Leave it alone.</p><div class="story-strip"><span id="storyAct">THE COVER-UP</span><p id="storyObjective">Someone hid your birthday present. The sign looks nervous.</p></div><p id="reaction" class="reaction" role="status" aria-live="polite"></p><div id="helpPanel" class="help-panel hidden"><p id="helpText"></p><div><button id="nextHint">ANOTHER CLUE</button><button id="gentle" aria-pressed="false">LESS MISCHIEF</button><button id="closeHelp" aria-label="Close hints">BACK TO IT</button></div></div></div>
 <section class="stage" id="stage" aria-label="Puzzle scene">
 
 <canvas id="art" width="640" height="360" aria-label="Original pixel art puzzle scene"></canvas>
-<div id="audioGate" class="audio-gate"><p>A LITTLE SOMETHING FOR CARLOS</p><button id="enterSound">ENTER WITH SOUND</button><button id="enterSilent">PLAY QUIETLY</button></div><audio id="narrationAudio" preload="none"></audio><button id="fallen" class="fallen hidden" aria-label="Select the fallen NOT sign">NOT</button><div id="opening" class="opening"><span class="small">CARLOS,</span><h1>THIS IS <button id="denial" aria-label="Pry loose the NOT sign">NOT</button><br>YOUR PRESENT.</h1><p>nothing to see here. definitely.</p></div>
+<div id="audioGate" class="audio-gate"><small>A LITTLE SOMETHING FOR CARLOS</small><h1>THE BIRTHDAY<br>COVER-UP.</h1><p>One present. One defensive narrator.<br>One raccoon on the payroll.</p><button id="enterSound">ENTER WITH SOUND</button><button id="enterSilent">PLAY QUIETLY</button></div><audio id="narrationAudio" preload="none"></audio><button id="fallen" class="fallen hidden" aria-label="Select the fallen NOT sign">NOT</button><div id="opening" class="opening"><span class="small">CARLOS,</span><h1>THIS IS <button id="denial" aria-label="Pry loose the NOT sign">NOT</button><br>YOUR PRESENT.</h1><p>the narrator has one job: keep you away from that present.</p></div>
+<button class="object hidden" id="snoop" aria-label="Investigate the suspicious raccoon" style="left:3%;top:65%;width:15%;height:20%"><span>…</span></button>
 <button class="object hidden" id="glove" aria-label="Pick up the boxing glove" style="left:66%;top:56%;width:16%;height:24%"><span>TAKE</span></button>
 <button class="object hidden" id="box" aria-label="Inspect or punch the locked present" style="left:32%;top:35%;width:36%;height:47%"><span id="boxLabel">DO NOT TOUCH</span></button>
 <button class="placard hidden" id="silence" style="left:12%;top:18%">NO MUSIC<br>ALLOWED</button>
@@ -23,12 +24,12 @@
 <div class="hidden dance" id="dance"><p id="danceStatus">THE FLOOR IS LISTENING.</p><button id="listen">LISTEN AGAIN</button><div class="pads"><button data-pad="0" aria-label="Blue dance pad">1</button><button data-pad="1" aria-label="Rose dance pad">2</button><button data-pad="2" aria-label="Gold dance pad">3</button><button data-pad="3" aria-label="Green dance pad">4</button></div></div>
 <button class="object hidden" id="cake" aria-label="Pick up the cake slice" style="left:14%;top:55%;width:20%;height:25%"><span>CAKE</span></button>
 <button class="object hidden" id="raccoon" aria-label="Offer cake to the raccoon" style="left:73%;top:43%;width:20%;height:35%"><span id="raccoonBubble">mine.</span></button>
-<button class="object hidden" id="key" aria-label="Pick up the dropped key" style="left:73%;top:62%;width:14%;height:20%"><span>KEY</span></button>
+<button class="object hidden" id="key" aria-label="Pick up the dropped key" style="left:65%;top:68%;width:14%;height:20%"><span>KEY</span></button>
 <button class="hidden final-open" id="finalOpen">OPEN IT ANYWAY</button>
-<div id="birthday" class="hidden birthday"><small>OKAY. YOU CAUGHT ME.</small><h2>FELIZ<br>CUMPLEAÑOS,<br>CARLOS!</h2><button id="letterOpen">THERE’S A NOTE FOR YOU</button></div>
+<div id="birthday" class="hidden birthday"><small>THE COVER-UP IS OVER.</small><h2>FELIZ<br>CUMPLEAÑOS,<br>CARLOS!</h2><button id="letterOpen">THERE’S A NOTE FOR YOU</button></div>
 <article class="hidden letter" id="letter"><small>FOR CARLOS</small><h2>you earned this.</h2><p>carlos is somehow finally strong enough to get this present.</p><p>happy birthday carlos!!<br>now go eat some cake and take over the dance floor. ♡</p><div><button id="forgive">FINE. YOU’RE FORGIVEN.</button><button id="roast">YOU’RE STILL ANNOYING.</button></div></article>
 </section>
 <div class="inventory"><span>POCKETS</span><button id="itemGlove" class="hidden item" aria-label="Select boxing glove">BOXING GLOVE</button><button id="itemRecord" class="hidden item" aria-label="Select record">MYSTERY RECORD</button><button id="itemCake" class="hidden item" aria-label="Select cake slice">CAKE SLICE</button><button id="itemKey" class="hidden item" aria-label="Select key">GOLD KEY</button><span id="empty">empty. allegedly.</span><span id="held"></span></div>
 <footer><span>progress saves here · drag items or tap to select</span><button id="restart">START OVER</button></footer>
-</main><script src="narration.js?v=sharp-art-8"></script><script src="game.js?v=sharp-art-8"></script>
+</main><script src="narration.js?v=birthday-coverup-9"></script><script src="game.js?v=birthday-coverup-9"></script>
 </body></html>

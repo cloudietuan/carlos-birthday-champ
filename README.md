@@ -1,6 +1,6 @@
-# Carlos, this is not your present.
+# Carlos: The Birthday Cover-Up
 
-A small original birthday puzzle adventure inspired by the fourth-wall humor and screen puzzles of *There Is No Game*. All dialogue, art, code, and puzzles here were made for Carlos.
+An original birthday cover-up with an unreliable narrator, a dodging present, and a cake-motivated raccoon. A small birthday puzzle adventure inspired by the fourth-wall humor and screen puzzles of *There Is No Game*. All dialogue, art, code, and puzzles here were made for Carlos.
 
 **Play:** https://cloudietuan.github.io/carlos-birthday-champ/
 
@@ -9,6 +9,8 @@ A small original birthday puzzle adventure inspired by the fourth-wall humor and
 Click or tap the scene. Loose props can be moved around the screen with a mouse or finger. The narrator is not especially reliable. Find loose signs, collect objects, use the fallen title sign to break a glass case, use your boxing glove, uncover music, solve a dance-floor memory puzzle, and bribe a key-stealing raccoon with cake to reach the birthday present.
 
 Select an item from your pockets, then tap its destination. On desktop, you can also drag items. There are no movement arrows. `STUCK?` gives a clue for the current puzzle.
+
+The story runs from the suspicious title sign to the birthday reveal. The props can be deliberately uncooperative, but the pranks are bounded and wrong dance notes never erase progress. `STUCK?` opens progressive clues and a **LESS MISCHIEF** option that stops the extra dodges and negotiations. Useful targets light up when you hold an item. Progress saves in the current browser; **START OVER** resets it.
 
 Enter with sound to hear 36 locally hosted, recorded narrator lines. Replay repeats the last line; muting leaves captions and every puzzle available. Narration uses MP3 playback rather than browser text-to-speech. The raccoon’s clues appear as speech bubbles. No login, tracking, or downloads needed.
 
