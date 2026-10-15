@@ -137,7 +137,6 @@ $('forgive').onclick=()=>finish(true);$('roast').onclick=()=>finish(false);
 $('hint').onclick=()=>{if(phase===5&&!keyUnlocked){$('caption').textContent=keyDropped?'Pick up the dropped key and drag it to the present’s lock.':'That raccoon stole your key. It seems more interested in the cake. Try dragging the slice over to it.';stopNarration();$('raccoonBubble').textContent=keyDropped?'key. box. easy.':'cake please.';}else say(phase===3&&recordFound?'Pick up the record, select it in your pockets, and click the turntable.':phase===5?'You earned it. Open the box anyway.':hints[phase]);};
 $('voice').onclick=()=>{voiceEnabled=!voiceEnabled;$('voice').textContent=voiceEnabled?'VOICE ON':'VOICE OFF';$('voice').setAttribute('aria-pressed',String(voiceEnabled));if(!voiceEnabled)stopNarration();else if(entered)say($('caption').textContent);};
 $('restart').onclick=()=>{
-  if(phase>0&&!confirm('Start the puzzle over?'))return;
   ending=null;try{localStorage.removeItem(SAVE_KEY);}catch{}
   stopNarration();cakeOwned=keyOwned=keyDropped=keyUnlocked=false;resetMovables();epoch++;phase=signHits=lockHits=musicHits=danceIndex=0;recordFound=gloveOwned=recordOwned=playing=false;selected=null;confetti=[];
   $('denial').classList.remove('fall','shake');pads.forEach(p=>p.classList.remove('lit'));
